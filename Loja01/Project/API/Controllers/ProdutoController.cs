@@ -1,4 +1,6 @@
-﻿using Loja01.Project.Domain.Models;
+﻿using Loja01.Project.Domain.Command;
+using Loja01.Project.Domain.Infrastructure.Facade;
+using Loja01.Project.Domain.Models;
 using Loja01.Project.Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,20 +11,25 @@ namespace Loja01.Project.API.Controllers
     public class ProdutoController : ControllerBase
     {
         public const string URL = "produtos";
-        private ProdutoRepository _repository;
+        private IProdutoFacade Service;
 
-        public ProdutoController(ProdutoRepository repository)
-            => _repository = repository;
+        public ProdutoController(IProdutoFacade service)
+            => Service = service;
 
         [HttpGet("{id}")]
-        public ActionResult<Produto> Get(int id)
-        {
-            var result = _repository.FirstOrDefaultById(id);
-            if (result == null)
-            {
-                return NotFound();
-            }
-            return Ok(result);
-        }
+        public ActionResult Get(int id)
+            => Ok(Service.Get(id));
+
+        [HttpGet("all")]
+        public ActionResult GetAll()
+            => Ok(Service.GetAll());
+
+        [HttpPost("create")]
+        public ActionResult Create([FromBody] SaveProdutoCommand command)
+            => Ok(Service.Create(command));
+
+        [HttpPost("{id}/save")]
+        public ActionResult Save(int id, [FromBody] SaveProdutoCommand command)
+            => Ok(Service.Save(id, command));
     }
 }
