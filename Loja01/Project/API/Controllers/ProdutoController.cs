@@ -15,10 +15,14 @@ namespace Loja01.Project.API.Controllers
             => _repository = repository;
 
         [HttpGet("{id}")]
-        public Produto Get(int id)
+        public ActionResult<Produto> Get(int id)
         {
             var result = _repository.FirstOrDefaultById(id);
-            return result;
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
     }
 }
