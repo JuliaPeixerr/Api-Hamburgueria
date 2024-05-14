@@ -2,18 +2,19 @@
 using Loja01.Project.Domain.Infrastructure.Facade;
 using Loja01.Project.Domain.Models;
 using Loja01.Project.Domain.Repository;
+using Loja01.Project.Domain.Repository.Interfaces;
 
 namespace Loja01.Project.Infrastructure.Facade
 {
     public class ProdutoFacade : IProdutoFacade
     {
-        private ProdutoRepository _repository;
+        private IProdutoRepository _repository;
 
-        public ProdutoFacade(ProdutoRepository repository)
+        public ProdutoFacade(IProdutoRepository repository)
             => (_repository) = (repository);
 
         public Produto? Get(int id)
-            => _repository.FirstOrDefaultById(id);
+            => _repository.GetById(id);
 
         public IList<Produto> GetAll()
             => _repository.GetAll();

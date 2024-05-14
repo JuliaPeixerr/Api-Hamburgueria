@@ -7,6 +7,7 @@ using Loja01.Project.Database;
 using Loja01.Project.API.Controllers;
 using Loja01.Project.Domain.Infrastructure.Facade;
 using Loja01.Project.Infrastructure.Facade;
+using Loja01.Project.Domain.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ProdutoRepository>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+
 builder.Services.AddScoped<IProdutoFacade, ProdutoFacade>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
