@@ -17,18 +17,16 @@ namespace Loja01.Project.Domain.Repository
         public Produto? FirstOrDefaultById(int id)
             => _context.Produto.FirstOrDefault(x => x.Id == id);
 
-        public void Add(Produto teste)
+        public void Add(Produto prod)
         {
-            _context.Produto.Add(teste);
+            _context.Produto.Add(prod);
             _context.SaveChanges();
         }
 
-        public void Update(Produto teste)
+        public void Update(Produto prod)
         {
-            var entity = FirstOrDefaultById(teste.Id);
-
-            if (entity != null)
-                _context.Update(entity);
+            _context.Update(prod);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
