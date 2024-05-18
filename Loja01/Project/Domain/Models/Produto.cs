@@ -12,5 +12,28 @@ namespace Loja01.Project.Domain.Models
 
         [Column("Pro_Descricao")]
         public string? Descricao { get; set; }
+
+        [Column("Pro_Valor")]
+        public double? Valor { get; set; }
+
+        // METODOSSSSSS
+
+        // get all produtos // busca por descricao
+
+        // metodo para favoritar // desfavoritar
+
+        // metodo para add no carrinho
+
+        // get all que tem no carrinho
+
+        // add quantidade (ou diminuir) do prod (feito no front ?? add um save com prod e quant)
+        // excluir do carrinho
+
+        // fechar a compra
+
+        // add forma de pagamento na nota
+
+        // cadastro de usuario // login de usuario
+        
     }
 }
