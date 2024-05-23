@@ -2,6 +2,7 @@
 using Loja01.Project.Domain.Models;
 using Loja01.Project.Domain.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Loja01.Project.Domain.Repository
 {
@@ -19,10 +20,16 @@ namespace Loja01.Project.Domain.Repository
         public List<T> GetAll()
             => _dbSet.ToList();
 
-        public T? GetById(int id)
+        public List<T> GetAll(Expression<Func<T, bool>> expression)
+            => _dbSet.Where(expression).ToList();
+
+        public T? Get(int id)
             => _dbSet.Find(id);
 
-        public void Add(T entity)
+        public T? Get(Expression<Func<T, bool>> expression)
+            => _dbSet.Where(expression).FirstOrDefault();
+
+        public void Create(T entity)
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
@@ -36,7 +43,7 @@ namespace Loja01.Project.Domain.Repository
 
         public void Delete(int id)
         {
-            var entity = GetById(id);
+            var entity = Get(id);
 
             if (entity != null)
             {

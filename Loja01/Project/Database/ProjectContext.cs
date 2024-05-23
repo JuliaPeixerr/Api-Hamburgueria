@@ -6,6 +6,7 @@ namespace Loja01.Project.Database
     public class ProjectContext : DbContext
     {
         public virtual DbSet<Produto> Produto { get; set; }
+        public virtual DbSet<Cliente> Cliente { get; set; }
 
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options) { }
     }

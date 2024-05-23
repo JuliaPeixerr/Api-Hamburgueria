@@ -15,9 +15,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//repositories
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
+//facades
 builder.Services.AddScoped<IProdutoFacade, ProdutoFacade>();
+builder.Services.AddScoped<IClienteFacade, ClienteFacade>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ProjectContext>(op => op.UseSqlite(connectionString));

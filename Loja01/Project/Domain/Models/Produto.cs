@@ -10,6 +10,9 @@ namespace Loja01.Project.Domain.Models
         [Column("Pro_Codigo")]
         public int Id { get; set; }
 
+        [Column("Pro_Titulo")]
+        public string? Titulo { get; set; }
+
         [Column("Pro_Descricao")]
         public string? Descricao { get; set; }
 
@@ -36,4 +39,6 @@ namespace Loja01.Project.Domain.Models
         // cadastro de usuario // login de usuario
         
     }
+
+    // fazer a parte de formas de pagamento depois
 }
