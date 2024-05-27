@@ -17,7 +17,7 @@ namespace Loja01.Project.Domain.Models
         public DateTime? Data { get; set; }
 
         [Column("Car_Finalizado")]
-        public string? Finalizado { get; set; }
+        public bool? Finalizado { get; set; }
 
         [Column("Car_Data_Finalizado")]
         public DateTime? DataFinalizado { get; set; }

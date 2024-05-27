@@ -45,6 +45,8 @@ namespace Loja01.Project.Infrastructure.Facade
             cliente.Senha = command.Senha;
             cliente.CPF = command.CPF;
             cliente.DataNascimento = command.Nascimento;
+
+            _repository.Update(cliente);
         }
 
         private IList<Cliente> GetAll()

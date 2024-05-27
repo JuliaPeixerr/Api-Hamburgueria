@@ -21,24 +21,23 @@ namespace Loja01.Project.Domain.Models
 
         // METODOSSSSSS
 
-        // get all produtos // busca por descricao
+        // get all produtos // busca por descricao - ok
 
-        // metodo para favoritar // desfavoritar
-
-        // metodo para add no carrinho
+        // metodo para add no carrinho - ok
 
         // get all que tem no carrinho
 
         // add quantidade (ou diminuir) do prod (feito no front ?? add um save com prod e quant)
+
         // excluir do carrinho
 
         // fechar a compra
 
-        // add forma de pagamento na nota
-
-        // cadastro de usuario // login de usuario
-        
+        // cadastro de usuario // login de usuario - ok
     }
 
-    // fazer a parte de formas de pagamento depois
+    // metodo para favoritar // desfavoritar - criar tabela
+
+    // fazer a parte de formas de pagamento depois - criar tabela
+        // add forma de pagamento na nota
 }
