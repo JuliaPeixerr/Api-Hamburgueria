@@ -18,5 +18,9 @@ namespace Loja01.Project.API.Controllers
         [HttpPost("add/item")]
         public ActionResult AddItem([FromBody] AddItenCommand command)
             => Ok(Service.AddItem(command));
+
+        [HttpGet("{id}/itens/all")]
+        public ActionResult GetAllItens(int id)
+            => Ok(Service.GetAllItens(id));
     }
 }

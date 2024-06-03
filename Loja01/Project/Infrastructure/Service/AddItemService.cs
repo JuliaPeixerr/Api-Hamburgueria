@@ -46,7 +46,7 @@ namespace Loja01.Project.Infrastructure.Service
 
             carrinho.Valor = produto.Valor;
             carrinho.Data = DateTime.Now;
-            carrinho.Finalizado = false;
+            carrinho.Finalizado = "N";
 
             _repository.Create(carrinho);
             return carrinho;

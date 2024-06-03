@@ -1,4 +1,5 @@
-﻿using Loja01.Project.Domain.Command;
+﻿using Loja01.Project.Database.Finder;
+using Loja01.Project.Domain.Command;
 using Loja01.Project.Domain.Infrastructure.Facade;
 using Loja01.Project.Domain.Infrastructure.Service;
 using Loja01.Project.Domain.Models;
@@ -23,5 +24,9 @@ namespace Loja01.Project.Infrastructure.Facade
 
         public Carrinho AddItem(AddItenCommand command)
             => _addItemService.Execute(command);
+
+        public IList<CarrinhoItens> GetAllItens(int id)
+            => _itensRepository.GetAll(new GenericCarrinhoItemFinder()
+                .CodigoCarrinho(id).ToExpression());
     }
 }
