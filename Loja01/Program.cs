@@ -10,9 +10,9 @@ using Loja01.Project.Infrastructure.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 // Adicionar serviços ao contêiner
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
 // Repositórios
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
@@ -36,32 +36,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-// Configurações de middleware
+app.MapControllers();
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
-
-// Executa as migrações do banco de dados na inicialização
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ProjectContext>();
-    dbContext.Database.Migrate();
-}
-
-// Configurações de rota
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}"
-    );
-    endpoints.MapControllers();
-});
 
 app.Run();

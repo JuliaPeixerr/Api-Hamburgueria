@@ -4,52 +4,39 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Loja01.Project.API
 {
-    public class Startup
+    public class Startup : IStartup
     {
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var connectionString = "Data Source=app.db";
+            var connectionString = "app.db";
             services.AddDbContext<ProjectContext>(options => options.UseSqlite(connectionString));
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            using (var serviceProvider = services.BuildServiceProvider())
+            {
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetService<ProjectContext>();
+                    dbContext.Database.Migrate();
+                }
+            }
 
             // Outros serviços da aplicação
             services.AddControllers();
+
+            return services.BuildServiceProvider();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
-
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             // Configurações de rota
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
-                );
+                endpoints.MapControllers();
             });
-
-            // Executa as migrações do banco de dados
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ProjectContext>();
-                dbContext.Database.Migrate();
-            }
         }
     }
 }
