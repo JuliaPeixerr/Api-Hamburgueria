@@ -6,6 +6,6 @@ namespace Loja01.Project.Domain.Infrastructure.Facade
     public interface ICarrinhoFacade
     {
         Carrinho AddItem(AddItenCommand command);
-        IList<CarrinhoItens> GetAllItens(int id);
+        IList<CarrinhoItens> GetAllItens();
     }
 }

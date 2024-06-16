@@ -25,8 +25,18 @@ namespace Loja01.Project.Infrastructure.Facade
         public Carrinho AddItem(AddItenCommand command)
             => _addItemService.Execute(command);
 
-        public IList<CarrinhoItens> GetAllItens(int id)
-            => _itensRepository.GetAll(new GenericCarrinhoItemFinder()
-                .CodigoCarrinho(id).ToExpression());
+        public IList<CarrinhoItens> GetAllItens()
+        {
+            var carrinho = _repository.Get(new GenericCarrinhoFinder()
+                .IsFinalizado(false).ToExpression());
+
+            if (carrinho == null)
+                return null;
+
+            var itens = _itensRepository.GetAll(new GenericCarrinhoItemFinder()
+                .CodigoCarrinho(carrinho.Id).ToExpression());
+
+            return itens;
+        }
     }
 }

@@ -20,6 +20,14 @@ namespace Loja01.Project.API
                 }
             }
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
+
             // Outros serviços da aplicação
             services.AddControllers();
 
@@ -31,6 +39,8 @@ namespace Loja01.Project.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+
+            app.UseCors("AllowSpecificOrigin");
 
             // Configurações de rota
             app.UseEndpoints(endpoints =>

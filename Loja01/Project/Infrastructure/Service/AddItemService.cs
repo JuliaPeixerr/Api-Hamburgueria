@@ -1,4 +1,5 @@
-﻿using Loja01.Project.Domain.Command;
+﻿using Loja01.Project.Database.Finder;
+using Loja01.Project.Domain.Command;
 using Loja01.Project.Domain.Infrastructure.Service;
 using Loja01.Project.Domain.Models;
 using Loja01.Project.Domain.Repository.Interfaces;
@@ -20,13 +21,11 @@ namespace Loja01.Project.Infrastructure.Service
 
         public Carrinho Execute(AddItenCommand command)
         {
-            var carrinho = new Carrinho();
             var produto = _produtoRepository.Get(command.CodigoProduto.Value);
+            var carrinho = GetOpen();
 
-            if (!command.CodigoCarrinho.HasValue)
+            if (carrinho == null)
                 carrinho = BuildCarrinho(produto);
-            else
-                carrinho = GetCarrinho(command.CodigoCarrinho.Value);
 
             var item = new CarrinhoItens();
             item.Id = GetLastId();
@@ -52,6 +51,10 @@ namespace Loja01.Project.Infrastructure.Service
             return carrinho;
         }
 
+        private Carrinho? GetOpen()
+            => _repository.Get(new GenericCarrinhoFinder()
+                .IsFinalizado(false).ToExpression());
+
         private int GetLastId()
         {
             IList<CarrinhoItens> all = _itensRepository.GetAll();
@@ -61,8 +64,5 @@ namespace Loja01.Project.Infrastructure.Service
                 return user.Id + 1;
             return 1;
         }
-
-        private Carrinho GetCarrinho(int id)
-            => _repository.Get(id);
     }
 }
