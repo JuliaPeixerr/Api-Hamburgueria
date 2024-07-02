@@ -16,6 +16,9 @@ namespace Loja01.Project.Domain.Models
         [Column("CIt_Cod_Produto")]
         public int? CodigoProduto { get; set; }
 
+        //[ForeignKey("CodigoProduto")]
+        //public virtual Produto? Produto { get; set; }
+
         [Column("CIt_Quantidade")]
         public int? Quantidade { get; set; }
 

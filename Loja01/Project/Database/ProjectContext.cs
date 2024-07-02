@@ -15,7 +15,7 @@ namespace Loja01.Project.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new CarrinhoMapper());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

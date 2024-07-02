@@ -3,6 +3,7 @@ using Loja01.Project.Domain.Command;
 using Loja01.Project.Domain.Infrastructure.Facade;
 using Loja01.Project.Domain.Infrastructure.Service;
 using Loja01.Project.Domain.Models;
+using Loja01.Project.Domain.Models.NovaPasta;
 using Loja01.Project.Domain.Repository;
 using Loja01.Project.Domain.Repository.Interfaces;
 
@@ -25,8 +26,10 @@ namespace Loja01.Project.Infrastructure.Facade
         public Carrinho AddItem(AddItenCommand command)
             => _addItemService.Execute(command);
 
-        public IList<CarrinhoItens> GetAllItens()
+        public IList<ItemProdutoDto> GetAllItens()
         {
+            IList<ItemProdutoDto> dto = new List<ItemProdutoDto>();
+
             var carrinho = _repository.Get(new GenericCarrinhoFinder()
                 .IsFinalizado(false).ToExpression());
 
@@ -36,7 +39,38 @@ namespace Loja01.Project.Infrastructure.Facade
             var itens = _itensRepository.GetAll(new GenericCarrinhoItemFinder()
                 .CodigoCarrinho(carrinho.Id).ToExpression());
 
-            return itens;
+            foreach (var item in itens)
+            {
+                dto.Add(new ItemProdutoDto
+                {
+                    CarrinhoItens = item,
+                    Produto = GetProduto(item.CodigoProduto.Value)
+                });
+            }
+
+            return dto;
         }
+
+        private Produto GetProduto(int id)
+            => _produtoRepository.Get(id);
+
+        public void AlterQuantidade(AlterQuantidadeCommand command)
+        {
+            var item = _itensRepository.Get(command.Id);
+
+            if (command.IsSoma)
+                item.Quantidade++;
+            else
+            {
+                if (item.Quantidade == 0) return;
+
+                item.Quantidade--;
+            }
+
+            _itensRepository.Update(item);
+        }
+
+        public void Remove(RemoveItemCommand command)
+            => _itensRepository.Delete(command.Id);
     }
 }

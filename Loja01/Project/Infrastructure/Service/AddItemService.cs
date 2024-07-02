@@ -28,8 +28,8 @@ namespace Loja01.Project.Infrastructure.Service
                 carrinho = BuildCarrinho(produto);
 
             var item = new CarrinhoItens();
-            item.Id = GetLastId();
-            item.CodigoCarrinho = command.CodigoCarrinho;
+            item.Id = GetLastIdItem();
+            item.CodigoCarrinho = carrinho.Id;
             item.CodigoProduto = command.CodigoProduto;
             item.Quantidade = 1;
             item.ValorUnitario = produto.Valor;
@@ -46,6 +46,7 @@ namespace Loja01.Project.Infrastructure.Service
             carrinho.Valor = produto.Valor;
             carrinho.Data = DateTime.Now;
             carrinho.Finalizado = "N";
+            carrinho.Id = GetLastIdCarrinho();
 
             _repository.Create(carrinho);
             return carrinho;
@@ -55,9 +56,19 @@ namespace Loja01.Project.Infrastructure.Service
             => _repository.Get(new GenericCarrinhoFinder()
                 .IsFinalizado(false).ToExpression());
 
-        private int GetLastId()
+        private int GetLastIdItem()
         {
             IList<CarrinhoItens> all = _itensRepository.GetAll();
+
+            var user = all.Reverse().FirstOrDefault();
+            if (user != null)
+                return user.Id + 1;
+            return 1;
+        }
+
+        private int GetLastIdCarrinho()
+        {
+            IList<Carrinho> all = _repository.GetAll();
 
             var user = all.Reverse().FirstOrDefault();
             if (user != null)

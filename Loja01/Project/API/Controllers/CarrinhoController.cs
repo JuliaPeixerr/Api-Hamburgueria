@@ -19,8 +19,22 @@ namespace Loja01.Project.API.Controllers
         public ActionResult AddItem([FromBody] AddItenCommand command)
             => Ok(Service.AddItem(command));
 
-        [HttpGet("{id}/itens/all")]
+        [HttpGet("itens/all")]
         public ActionResult GetAllItens()
             => Ok(Service.GetAllItens());
+
+        [HttpPost("item/alter/quantidade")]
+        public ActionResult AlterQuantidade([FromBody] AlterQuantidadeCommand command)
+        {
+            Service.AlterQuantidade(command);
+            return Ok();
+        }
+
+        [HttpPost("item/remove")]
+        public ActionResult Remove([FromBody] RemoveItemCommand command)
+        {
+            Service.Remove(command);
+            return Ok();
+        }
     }
 }
