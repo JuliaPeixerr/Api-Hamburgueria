@@ -10,5 +10,6 @@ namespace Loja01.Project.Domain.Infrastructure.Facade
         IList<ItemProdutoDto> GetAllItens();
         void AlterQuantidade(AlterQuantidadeCommand command);
         void Remove(RemoveItemCommand command);
+        void Finalize();
     }
 }

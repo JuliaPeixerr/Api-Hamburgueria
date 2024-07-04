@@ -36,5 +36,12 @@ namespace Loja01.Project.API.Controllers
             Service.Remove(command);
             return Ok();
         }
+
+        [HttpPost("finalize")]
+        public ActionResult Finalize()
+        {
+            Service.Finalize();
+            return Ok();
+        }
     }
 }

@@ -59,12 +59,16 @@ namespace Loja01.Project.Infrastructure.Facade
             var item = _itensRepository.Get(command.Id);
 
             if (command.IsSoma)
+            {
                 item.Quantidade++;
+                item.ValorTotal = item.ValorUnitario * item.Quantidade;
+            }
             else
             {
-                if (item.Quantidade == 0) return;
+                if (item.Quantidade == 1) return;
 
                 item.Quantidade--;
+                item.ValorTotal = item.ValorUnitario * item.Quantidade;
             }
 
             _itensRepository.Update(item);
@@ -72,5 +76,15 @@ namespace Loja01.Project.Infrastructure.Facade
 
         public void Remove(RemoveItemCommand command)
             => _itensRepository.Delete(command.Id);
+
+        public void Finalize()
+        {
+            var carrinho = _repository.Get(new GenericCarrinhoFinder()
+                .IsFinalizado(false).ToExpression());
+
+            carrinho.Finalizado = "S";
+            carrinho.DataFinalizado = DateTime.Now;
+            _repository.Update(carrinho);
+        }
     }
 }
